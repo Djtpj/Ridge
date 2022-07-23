@@ -3,6 +3,8 @@ package me.djtpj.files.config;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 
+import java.util.Objects;
+
 @Getter
 public abstract class Config<T> {
 
@@ -23,5 +25,13 @@ public abstract class Config<T> {
         result.put(key, value);
 
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Config<?> config = (Config<?>) o;
+        return Objects.equals(key, config.key) && Objects.equals(value, config.value);
     }
 }

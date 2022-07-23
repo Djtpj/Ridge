@@ -2,8 +2,11 @@ package me.djtpj.files.config._default;
 
 import junit.framework.TestCase;
 import me.djtpj.files.FileUtilities;
+import me.djtpj.files.config.IntegerConfig;
 
 import java.io.File;
+
+import static org.junit.Assert.assertArrayEquals;
 
 public class DefaultConfigTest extends TestCase {
 
@@ -12,11 +15,11 @@ public class DefaultConfigTest extends TestCase {
     DefaultConfigManager defaultConfig = new DefaultConfigManager(jsonFile.getPath());
 
     @Override
-    protected void setUp() throws Exception {
-        // TODO: 7/22/2022  
-//        defaultConfig.addConfig("key1",1);
-//        defaultConfig.addConfig("key2", 2);
-//        defaultConfig.addConfig("key3",3);
+    protected void setUp() {
+        defaultConfig.addConfig(new IntegerConfig("key1", 1));
+        defaultConfig.addConfig(new IntegerConfig("key2", 2));
+        defaultConfig.addConfig(new IntegerConfig("key3", 3));
+
     }
 
     public void testWrite() {
@@ -26,19 +29,9 @@ public class DefaultConfigTest extends TestCase {
 
         String results = FileUtilities.readTextFromFile(jsonFile);
 
-        String expected = "{\n" +
-                "  \"configs\": {\n" +
-                "    \"key1\": 1,\n" +
-                "    \"key2\": 2,\n" +
-                "    \"key3\": 3\n" +
-                "  }\n" +
-                "}";
+        String expected = "[{\"key1\":1},{\"key2\":2},{\"key3\":3}]";
 
-        assertEquals(clean(expected), clean(results));
-    }
-
-    public String clean(String base) {
-        return base.replaceAll("[^@a-zA-Z\\d]", "");
+        assertEquals(expected, results);
     }
 
     @Override
@@ -50,10 +43,14 @@ public class DefaultConfigTest extends TestCase {
     public void testRead() {
         testWrite();
 
-        DefaultConfigManager config = new DefaultConfigManager(jsonFile.getPath());
+        defaultConfig.read(jsonFile);
 
-        config.read(jsonFile);
+        DefaultConfigManager configManager = new DefaultConfigManager(jsonFile.getAbsolutePath());
 
-        assertEquals(defaultConfig, config);
+        configManager.addConfig(new IntegerConfig("key1", 1));
+        configManager.addConfig(new IntegerConfig("key2", 2));
+        configManager.addConfig(new IntegerConfig("key3", 3));
+
+        assertArrayEquals(defaultConfig.getConfigs(), configManager.getConfigs());
     }
 }

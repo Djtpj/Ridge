@@ -17,7 +17,7 @@ public class DefaultConfigManager implements AppConfigManager {
     @Getter
     transient final String path;
 
-    private ArrayList<Config> configs;
+    private final ArrayList<Config<?>> configs;
 
     public DefaultConfigManager(String path) {
         this.path = path;
@@ -32,7 +32,7 @@ public class DefaultConfigManager implements AppConfigManager {
 
     @Override
     public AppConfigManager removeConfig(String key) {
-        configs.remove(key);
+        configs.removeIf(config -> config.getKey().equals(key));
         return this;
     }
 
@@ -85,8 +85,11 @@ public class DefaultConfigManager implements AppConfigManager {
         try {
             JSONArray jsonArray = (JSONArray) jsonParser.parse(json);
 
-            for (int i = 0; i < jsonArray.size(); i++) {
-                configs.get(i).read((JSONObject) jsonArray.get(i));
+
+            if (jsonArray.size() > 0 && configs.size() > 0) {
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    configs.get(i).read((JSONObject) jsonArray.get(i));
+                }
             }
 
         } catch (ParseException e) {
