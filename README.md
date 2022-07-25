@@ -90,7 +90,9 @@ config.addConfig(new IntegerConfig("screenHeight", 2160));
 config.addConfig(new BooleanConfig("maximized", false));
 
 // Get the "screenWidth" config
-Config<Integer> screenWidth = (Config<Integer>) config.getConfig("screenWidth"); // this returns an Integer, but only because we told Java to make it an Integer.
+IntegerConfig screenWidth = config.getConfig("screenWidth");
+
+// to access the int, use "screenWidth.getValue()"
 ```
 
 # Setting
