@@ -1,6 +1,7 @@
 package me.djtpj.files.config;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.json.simple.JSONObject;
 
 import java.util.Objects;
@@ -10,6 +11,7 @@ public abstract class Config<T> {
 
     final String key;
 
+    @Setter
     T value;
 
     public Config(String key, T value) {

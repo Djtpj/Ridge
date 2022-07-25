@@ -21,6 +21,8 @@ public interface AppConfigManager {
 
     <T extends Config> T getConfig(String key);
 
+    AppConfigManager setConfig(Config config);
+
     /** Writes the configurations to the specified path in JSON format
      * @param path the path to write to
      */

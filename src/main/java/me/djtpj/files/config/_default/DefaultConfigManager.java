@@ -62,13 +62,26 @@ public class DefaultConfigManager implements AppConfigManager {
 
         ArrayList<Config<?>> configs = this.configs;
 
-        Predicate<Config<?>> filter = key::equals;
+        Predicate<Config<?>> filter = (c) -> key.equals(c.getKey());
 
         configs.removeIf(filter.negate());
 
         return (T) configs.get(0);
     }
 
+    @Override
+    public AppConfigManager setConfig(Config config) {
+        removeConfig(config.getKey());
+
+        configs.add(config);
+
+        return this;
+    }
+
+    /**
+     * Only writes JSON values as specified by the stored configs
+     * @param path the path to write to
+     */
     @Override
     public AppConfigManager write(String path) {
 
@@ -83,6 +96,9 @@ public class DefaultConfigManager implements AppConfigManager {
         return this;
     }
 
+    /**
+     * Writes to the defined path
+     */
     @Override
     public AppConfigManager write() {
 
@@ -91,6 +107,9 @@ public class DefaultConfigManager implements AppConfigManager {
         return this;
     }
 
+    /**
+     * @param path the path to read from
+     */
     @Override
     public AppConfigManager read(String path) {
 
@@ -99,6 +118,9 @@ public class DefaultConfigManager implements AppConfigManager {
         return this;
     }
 
+    /** Updates the stored configs values
+     * @param file the file read from
+     */
     @Override
     public AppConfigManager read(File file) {
         String json = FileUtilities.readTextFromFile(file);
