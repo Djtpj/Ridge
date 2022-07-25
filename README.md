@@ -61,6 +61,7 @@ config.write();
 Reading your configs essentially updates the values from the JSON.
 
 The ConfigManager will only grab values and data based off of the keys defined via adding. 
+Think of the ConfigManager kind of like a template, and an instance of that template in one. The template part is used for reading, and the instance is used for writing and management
 
 Here is an example of reading
 ```java
@@ -78,3 +79,36 @@ config.read("config.json");
 If we ran this code after running the previous snippet, our ConfigManager would stilll have the same values as before, even though we defined different default values.
 
 # Getting
+Here is a snippet of the code required to get a config from a ConfigManager
+```java
+// Define the ConfigManager
+DefaultConfigManager config = new DefaultConfigManager("config.json");
+
+// Add the default values
+config.addConfig(new IntegerConfig("screenWidth", 3840));
+config.addConfig(new IntegerConfig("screenHeight", 2160));
+config.addConfig(new BooleanConfig("maximized", false));
+
+// Get the "screenWidth" config
+Config<Integer> screenWidth = (Config<Integer>) config.getConfig("screenWidth"); // this returns an Integer, but only because we told Java to make it an Integer.
+```
+
+# Setting
+You cannot set Configs with just a Key and Value because there is no way to get Type parameters from a class that I know of right now (If you have an idea let me know!)
+
+Here is a snippet for setting
+```java
+// Define the ConfigManager
+DefaultConfigManager config = new DefaultConfigManager("config.json");
+
+// Add the default values
+config.addConfig(new IntegerConfig("screenWidth", 3840));
+config.addConfig(new IntegerConfig("screenHeight", 2160));
+config.addConfig(new BooleanConfig("maximized", false));
+
+// Set the "maximized" config to true
+config.setConfig(new BooleanConfig("maximized", true));
+```
+
+# Closing
+That is all of the current features in Ridge! If you have an idea for another one let me know, and get working!
