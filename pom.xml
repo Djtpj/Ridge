@@ -14,15 +14,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <id>compile</id>
-                    </execution>
-                </executions>
+                <version>3.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
 
         </plugins>
@@ -41,6 +37,7 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
