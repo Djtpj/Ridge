@@ -19,7 +19,7 @@ public interface AppConfigManager {
 
     Config[] getConfigs();
 
-    <T extends Config> T getConfig(String key);
+    Config<?> getConfig(String key);
 
     AppConfigManager setConfig(Config config);
 

@@ -58,15 +58,13 @@ public class DefaultConfigManager implements AppConfigManager {
     }
 
     @Override
-    public <T extends Config> T getConfig(String key) {
+    public Config<?> getConfig(String key) {
 
-        ArrayList<Config<?>> configs = this.configs;
+        for (Config<?> config : configs) {
+            if (config.getKey().equals(key)) return config;
+        }
 
-        Predicate<Config<?>> filter = (c) -> key.equals(c.getKey());
-
-        configs.removeIf(filter.negate());
-
-        return (T) configs.get(0);
+        return null;
     }
 
     @Override
